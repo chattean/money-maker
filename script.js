@@ -134,6 +134,7 @@ var getCompanyData = function (stockTicker) {
             return stockResponse.json();
         })
         .then(function (data) {
+            // Error Checking if search box is empty or invalid
             if (data.name ==undefined || data.name == null|| data.name== "" ){
                 console.log("data is empty")
                 $('#error-msg').empty();
@@ -143,7 +144,7 @@ var getCompanyData = function (stockTicker) {
                 displayError.innerHTML = "Please enter a valid Stock Ticker";
                 errorMsg.append(displayError);
             }else{
-            // initializing the innerHTMLs of all elements
+                // initializing the innerHTMLs of all elements
 
                 companyInfoEl.innerHTML = "";
                 companyUrlEl.innerHTML = "";
@@ -217,12 +218,25 @@ $(document).on('click', '.search-icon', function () {
     var stockTicker = document.querySelector("#search").value;
     console.log("this is from click: ", stockTicker)
     getCompanyData(stockTicker);
-
-
     // add function for getting stock news
     getNewsData(stockTicker); 
 });
 
+// Event Listener for the search icon, when enter is pressed it  will run the getCompanyData function to display stock information.
+
+
+$(document.querySelector("#search")).keypress(function (e) { 
+    if (e.which == 13) { // code 13 is enter in most browsers
+            // getting the search value. 
+        var stockTicker = document.querySelector("#search").value;
+        console.log("this is from click: ", stockTicker)
+        getCompanyData(stockTicker);
+        // add function for getting stock news
+        getNewsData(stockTicker); 
+
+    }
+    
+});
 // render stock clicked from previous searched side-nav
 previousStockTickersEl.addEventListener("click", previousStockTickersHandler);
 
